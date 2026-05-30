@@ -42,7 +42,7 @@ def require_api_key(f):
 
 @app.route("/", methods=["GET"])
 def index():
-    return send_from_directory(app.static_folder, 'index.html')
+    return jsonify({"status": "success", "message": "Loan Eligibility API is online"}), 200
 
 @app.errorhandler(Exception)
 def handle_exception(e):
