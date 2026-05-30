@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loan Eligibility Dashboard | Private</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --primary: #6366f1; --secondary: #a855f7; --accent: #10b981; --bg: #0f172a; --card-bg: rgba(30, 41, 59, 0.7); --text: #f8fafc; --text-muted: #94a3b8; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Outfit', sans-serif; }
+        body { background-color: var(--bg); background-image: radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0px, transparent 50%), radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.15) 0px, transparent 50%); color: var(--text); min-height: 100vh; padding: 2rem; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        header { text-align: center; margin-bottom: 3rem; }
+        header h1 { font-size: 3rem; font-weight: 800; background: linear-gradient(to right, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        header p { color: var(--text-muted); }
+        .dashboard-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 2rem; }
+        @media (max-width: 968px) { .dashboard-grid { grid-template-columns: 1fr; } }
+        .card { background: var(--card-bg); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 24px; padding: 2rem; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); }
+        .card-title { font-size: 1.5rem; font-weight: 600; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.75rem; }
+        .card-title i { color: var(--primary); }
+        .form-group { margin-bottom: 1.25rem; }
+        .form-group label { display: block; margin-bottom: 0.5rem; color: var(--text-muted); font-size: 0.8rem; }
+        .form-group input { width: 100%; padding: 0.75rem 1rem; background: rgba(15, 23, 42, 0.5); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; color: white; }
+        .btn { width: 100%; padding: 1rem; background: linear-gradient(135deg, var(--primary), var(--secondary)); border: none; border-radius: 12px; color: white; font-weight: 600; cursor: pointer; }
+        .result-container { display: none; margin-top: 2rem; border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 2rem; }
+        .status-badge { display: inline-block; padding: 0.5rem 1rem; border-radius: 100px; font-weight: 600; font-size: 0.8rem; margin-bottom: 1rem; }
+        .status-eligible { background: rgba(16, 185, 129, 0.2); color: #10b981; }
+        .status-denied { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+        .result-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+        .result-item { background: rgba(15, 23, 42, 0.3); padding: 1rem; border-radius: 16px; }
+        .result-item .label { color: var(--text-muted); font-size: 0.7rem; }
+        .result-item .value { font-weight: 600; }
+        .remarks { grid-column: span 2; background: rgba(99, 102, 241, 0.1); padding: 1rem; border-radius: 16px; font-size: 0.9rem; border-left: 4px solid var(--primary); }
+        .applicant-list { display: flex; flex-direction: column; gap: 1rem; max-height: 600px; overflow-y: auto; padding-right: 0.5rem; }
+        .applicant-item { background: rgba(15, 23, 42, 0.3); border-radius: 16px; padding: 1.25rem; display: flex; justify-content: space-between; align-items: center; }
+        .applicant-info h4 { margin-bottom: 0.2rem; }
+        .applicant-info p { color: var(--text-muted); font-size: 0.8rem; }
+        .applicant-stats { text-align: right; }
+        .applicant-stats .amount { font-weight: 600; color: var(--primary); display: block; }
+        .delete-btn { background: rgba(239, 68, 68, 0.1); color: #ef4444; border: none; width: 32px; height: 32px; border-radius: 8px; cursor: pointer; }
+        .delete-btn:hover { background: #ef4444; color: white; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <header><h1>Loan Private Dashboard</h1><p>Only your own loan checks are visible in this history.</p></header>
+    <div class="dashboard-grid">
+        <section>
+            <div class="card">
+                <div class="card-title"><i class="fas fa-calculator"></i> Eligibility Check</div>
+                <form id="loanForm">
+                    <div class="form-group"><label>Full Name</label><input type="text" id="name" required></div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div class="form-group"><label>Monthly Income (₹)</label><input type="number" id="income" required></div>
+                        <div class="form-group"><label>Existing EMI (₹)</label><input type="number" id="existing_emi" value="0"></div>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div class="form-group"><label>Property Value (₹)</label><input type="number" id="property_value" required></div>
+                        <div class="form-group"><label>Desired Loan (₹)</label><input type="number" id="loan_amount" required></div>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div class="form-group"><label>Tenure (Years)</label><input type="number" id="tenure" value="20" required></div>
+                        <div class="form-group"><label>Interest Rate (%)</label><input type="number" id="rate" value="8.5" step="0.01" required></div>
+                    </div>
+                    <button type="submit" class="btn">Evaluate Eligibility</button>
+                </form>
+                <div class="result-container" id="resultArea">
+                    <div id="statusBadge" class="status-badge"></div>
+                    <div class="result-grid">
+                        <div class="result-item"><div class="label">EMI</div><div class="value" id="resEmi">₹0</div></div>
+                        <div class="result-item"><div class="label">DTI</div><div class="value" id="resDti">0%</div></div>
+                        <div class="result-item"><div class="label">Max Loan</div><div class="value" id="resMax">₹0</div></div>
+                        <div class="result-item"><div class="label">Category</div><div class="value" id="resCat">-</div></div>
+                        <div class="remarks" id="resRemarks"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section>
+            <div class="card">
+                <div class="card-title"><i class="fas fa-user-shield"></i> Your Private History</div>
+                <div class="applicant-list" id="applicantList"></div>
+            </div>
+        </section>
+    </div>
+</div>
+<script>
+    const API_BASE = '/api';
+    const API_KEY = 'my-secure-loan-key-12345';
+    
+    // Privacy Logic: Generate or Retrieve a persistent User Session ID
+    let sessionId = localStorage.getItem('loan_session_id');
+    if (!sessionId) {
+        sessionId = 'user_' + Math.random().toString(36).substr(2, 9);
+        localStorage.setItem('loan_session_id', sessionId);
+    }
+
+    const getHeaders = () => ({ 'Content-Type': 'application/json', 'X-API-Key': API_KEY });
+
+    document.getElementById('loanForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const payload = {
+            session_id: sessionId, // Send Privacy ID
+            name: document.getElementById('name').value,
+            monthly_income: parseFloat(document.getElementById('income').value),
+            existing_emi: parseFloat(document.getElementById('existing_emi').value),
+            property_value: parseFloat(document.getElementById('property_value').value),
+            desired_loan_amount: parseFloat(document.getElementById('loan_amount').value),
+            loan_tenure_years: parseInt(document.getElementById('tenure').value),
+            interest_rate: parseFloat(document.getElementById('rate').value)
+        };
+        try {
+            const response = await fetch(`${API_BASE}/check`, { method: 'POST', headers: getHeaders(), body: JSON.stringify(payload) });
+            const data = await response.json();
+            if (response.ok) { displayResult(data.result); fetchApplicants(); }
+        } catch (err) { alert('API Error'); }
+    });
+
+    function displayResult(res) {
+        const area = document.getElementById('resultArea');
+        area.style.display = 'block';
+        document.getElementById('statusBadge').innerText = res.eligible ? '✅ ELIGIBLE' : '❌ NOT ELIGIBLE';
+        document.getElementById('statusBadge').className = 'status-badge ' + (res.eligible ? 'status-eligible' : 'status-denied');
+        document.getElementById('resEmi').innerText = `₹${res.monthly_emi.toLocaleString()}`;
+        document.getElementById('resDti').innerText = `${res.debt_to_income_ratio}%`;
+        document.getElementById('resMax').innerText = `₹${res.max_eligible_loan.toLocaleString()}`;
+        document.getElementById('resCat').innerText = res.credit_category;
+        document.getElementById('resRemarks').innerText = res.remarks;
+    }
+
+    async function fetchApplicants() {
+        try {
+            // Only fetch records for THIS sessionId
+            const response = await fetch(`${API_BASE}/applicants?session_id=${sessionId}`, { headers: getHeaders() });
+            const data = await response.json();
+            const list = document.getElementById('applicantList');
+            list.innerHTML = '';
+            if (data.length === 0) { list.innerHTML = '<p style="text-align:center;color:var(--text-muted);padding:2rem;">No history yet.</p>'; return; }
+            data.reverse().forEach(app => {
+                const item = document.createElement('div');
+                item.className = 'applicant-item';
+                item.innerHTML = `
+                    <div class="applicant-info"><h4>${app.name}</h4><p>${app.loan_tenure_years}y @ ${app.interest_rate}%</p></div>
+                    <div style="display:flex;align-items:center;">
+                        <div class="applicant-stats"><span class="amount">₹${app.desired_loan_amount.toLocaleString()}</span></div>
+                        <button class="delete-btn" onclick="deleteApplicant('${app.id}')"><i class="fas fa-trash-can"></i></button>
+                    </div>`;
+                list.appendChild(item);
+            });
+        } catch (err) { }
+    }
+
+    async function deleteApplicant(id) {
+        if (!confirm('Delete?')) return;
+        await fetch(`${API_BASE}/applicants/${id}`, { method: 'DELETE', headers: getHeaders() });
+        fetchApplicants();
+    }
+    fetchApplicants();
+</script>
+</body>
+</html>
