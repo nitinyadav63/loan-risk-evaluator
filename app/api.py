@@ -42,14 +42,31 @@ def require_api_key(f):
 
 @app.route("/", methods=["GET"])
 def index():
-    return jsonify({"status": "success", "message": "Loan Eligibility API is online"}), 200
+    return jsonify({
+        "status": "success", 
+        "message": "Loan Eligibility API is online",
+        "version": "1.0.0"
+    }), 200
+
+@app.route("/api/health", methods=["GET"])
+def health_check():
+    from .storage import get_collection
+    db_status = "Connected" if get_collection() is not None else "Disconnected"
+    return jsonify({
+        "status": "healthy",
+        "database": db_status,
+        "environment": "production" if os.environ.get("VERCEL") else "development"
+    }), 200
 
 @app.errorhandler(Exception)
 def handle_exception(e):
     from werkzeug.exceptions import HTTPException
     if isinstance(e, HTTPException): return e
-    logger.exception("Unhandled exception")
-    return jsonify({"error": "Internal server error"}), 500
+    logger.error(f"Unhandled Exception: {str(e)}", exc_info=True)
+    return jsonify({
+        "error": "Internal server error",
+        "details": str(e) if os.environ.get("FLASK_DEBUG") == "1" else "Contact administrator"
+    }), 500
 
 # ============================================================
 # API Endpoints

@@ -4,8 +4,14 @@ version = "1.0.0"
 description = "Loan risk evaluator Flask API"
 requires-python = ">=3.12"
 dependencies = [
-    "flask"
+    "flask",
+    "flask-cors",
+    "pymongo[srv]",
+    "python-dotenv"
 ]
+
+[tool.vercel]
+entrypoint = "app.api:app"
 
 [project.scripts]
 app = "app.api:app"
