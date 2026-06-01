@@ -8,7 +8,7 @@ import uuid
 import logging
 from functools import wraps
 from typing import Optional, Union
-from flask import Flask, request, jsonify, send_from_directory
+from flask import Flask, request, jsonify, send_from_directory, render_template
 from flask_cors import CORS
 
 from .eligibility import check_eligibility
@@ -23,7 +23,7 @@ from .storage import (
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 logger = logging.getLogger(__name__)
 
-app = Flask(__name__, static_folder='../static')
+app = Flask(__name__, static_folder='../static', template_folder='../templates')
 CORS(app)
 
 app.config["MAX_CONTENT_LENGTH"] = 1 * 1024 * 1024
@@ -42,11 +42,7 @@ def require_api_key(f):
 
 @app.route("/", methods=["GET"])
 def index():
-    return jsonify({
-        "status": "success", 
-        "message": "Loan Eligibility API is online",
-        "version": "1.0.0"
-    }), 200
+    return render_template("index.html")
 
 @app.route("/api/health", methods=["GET"])
 def health_check():

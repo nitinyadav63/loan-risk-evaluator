@@ -17,11 +17,11 @@ if __name__ == "__main__":
 
     print("=" * 55)
     print("  Loan Eligibility Checker API")
-    print(f"  Running at  →  http://127.0.0.1:5000")
-    print(f"  Debug mode  →  {'ON ⚠' if debug_mode else 'OFF ✔'}")
+    print(f"  Running at  ->  http://127.0.0.1:5000")
+    print(f"  Debug mode  ->  {'ON [WARNING]' if debug_mode else 'OFF [OK]'}")
     if os.environ.get("LOAN_API_KEY"):
-        print("  Auth        →  API key required ✔")
+        print("  Auth        ->  API key required [OK]")
     else:
-        print("  Auth        →  OPEN (set LOAN_API_KEY to secure)")
+        print("  Auth        ->  OPEN (set LOAN_API_KEY to secure)")
     print("=" * 55)
     app.run(debug=debug_mode, port=5000)
