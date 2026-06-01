@@ -1,90 +1,359 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="light" lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Loan Eligibility Dashboard | Private</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>LoanCheck - Loan Eligibility Evaluator</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-tertiary-fixed": "#121c28",
+                      "on-tertiary-container": "#e9f1ff",
+                      "surface-dim": "#d8dadc",
+                      "on-surface": "#191c1e",
+                      "secondary-fixed-dim": "#62df7d",
+                      "primary-fixed-dim": "#b4c5ff",
+                      "tertiary-fixed": "#d9e3f4",
+                      "surface-tint": "#0053db",
+                      "on-background": "#191c1e",
+                      "surface-container": "#eceef0",
+                      "on-error-container": "#93000a",
+                      "on-primary-container": "#eeefff",
+                      "on-secondary-fixed": "#002109",
+                      "tertiary": "#4c5664",
+                      "error-container": "#ffdad6",
+                      "background": "#f7f9fb",
+                      "secondary": "#006e2d",
+                      "on-tertiary-fixed-variant": "#3e4755",
+                      "surface": "#f7f9fb",
+                      "on-secondary-container": "#007230",
+                      "surface-container-low": "#f2f4f6",
+                      "on-primary": "#ffffff",
+                      "inverse-primary": "#b4c5ff",
+                      "tertiary-container": "#646e7d",
+                      "tertiary-fixed-dim": "#bdc7d8",
+                      "on-tertiary": "#ffffff",
+                      "surface-bright": "#f7f9fb",
+                      "inverse-surface": "#2d3133",
+                      "primary": "#004ac6",
+                      "surface-variant": "#e0e3e5",
+                      "outline-variant": "#c3c6d7",
+                      "outline": "#737686",
+                      "on-primary-fixed-variant": "#003ea8",
+                      "on-secondary": "#ffffff",
+                      "surface-container-highest": "#e0e3e5",
+                      "inverse-on-surface": "#eff1f3",
+                      "on-error": "#ffffff",
+                      "on-surface-variant": "#434655",
+                      "error": "#ba1a1a",
+                      "primary-fixed": "#dbe1ff",
+                      "surface-container-lowest": "#ffffff",
+                      "secondary-fixed": "#7ffc97",
+                      "on-secondary-fixed-variant": "#005320",
+                      "secondary-container": "#7cf994",
+                      "surface-container-high": "#e6e8ea",
+                      "primary-container": "#2563eb",
+                      "on-primary-fixed": "#00174b"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "base": "8px",
+                      "stack-lg": "32px",
+                      "stack-sm": "8px",
+                      "margin-mobile": "16px",
+                      "margin-desktop": "40px",
+                      "container-max": "1200px",
+                      "gutter": "24px",
+                      "stack-md": "16px"
+              },
+              "fontFamily": {
+                      "headline-lg": ["Manrope"],
+                      "body-md": ["Manrope"],
+                      "headline-lg-mobile": ["Manrope"],
+                      "headline-sm": ["Manrope"],
+                      "label-sm": ["Manrope"],
+                      "headline-md": ["Manrope"],
+                      "body-sm": ["Manrope"],
+                      "label-md": ["Manrope"],
+                      "body-lg": ["Manrope"]
+              },
+              "fontSize": {
+                      "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                      "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                      "headline-lg-mobile": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                      "headline-sm": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                      "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                      "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                      "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                      "label-md": ["14px", { "lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+                      "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }]
+              }
+            }
+          }
+        }
+    </script>
     <style>
-        :root { --primary: #6366f1; --secondary: #a855f7; --accent: #10b981; --bg: #0f172a; --card-bg: rgba(30, 41, 59, 0.7); --text: #f8fafc; --text-muted: #94a3b8; }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Outfit', sans-serif; }
-        body { background-color: var(--bg); background-image: radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0px, transparent 50%), radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.15) 0px, transparent 50%); color: var(--text); min-height: 100vh; padding: 2rem; }
-        .container { max-width: 1200px; margin: 0 auto; }
-        header { text-align: center; margin-bottom: 3rem; }
-        header h1 { font-size: 3rem; font-weight: 800; background: linear-gradient(to right, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        header p { color: var(--text-muted); }
-        .dashboard-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 2rem; }
-        @media (max-width: 968px) { .dashboard-grid { grid-template-columns: 1fr; } }
-        .card { background: var(--card-bg); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 24px; padding: 2rem; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); }
-        .card-title { font-size: 1.5rem; font-weight: 600; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.75rem; }
-        .card-title i { color: var(--primary); }
-        .form-group { margin-bottom: 1.25rem; }
-        .form-group label { display: block; margin-bottom: 0.5rem; color: var(--text-muted); font-size: 0.8rem; }
-        .form-group input { width: 100%; padding: 0.75rem 1rem; background: rgba(15, 23, 42, 0.5); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; color: white; }
-        .btn { width: 100%; padding: 1rem; background: linear-gradient(135deg, var(--primary), var(--secondary)); border: none; border-radius: 12px; color: white; font-weight: 600; cursor: pointer; }
-        .result-container { display: none; margin-top: 2rem; border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 2rem; }
-        .status-badge { display: inline-block; padding: 0.5rem 1rem; border-radius: 100px; font-weight: 600; font-size: 0.8rem; margin-bottom: 1rem; }
-        .status-eligible { background: rgba(16, 185, 129, 0.2); color: #10b981; }
-        .status-denied { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
-        .result-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
-        .result-item { background: rgba(15, 23, 42, 0.3); padding: 1rem; border-radius: 16px; }
-        .result-item .label { color: var(--text-muted); font-size: 0.7rem; }
-        .result-item .value { font-weight: 600; }
-        .remarks { grid-column: span 2; background: rgba(99, 102, 241, 0.1); padding: 1rem; border-radius: 16px; font-size: 0.9rem; border-left: 4px solid var(--primary); }
-        .applicant-list { display: flex; flex-direction: column; gap: 1rem; max-height: 600px; overflow-y: auto; padding-right: 0.5rem; }
-        .applicant-item { background: rgba(15, 23, 42, 0.3); border-radius: 16px; padding: 1.25rem; display: flex; justify-content: space-between; align-items: center; }
-        .applicant-info h4 { margin-bottom: 0.2rem; }
-        .applicant-info p { color: var(--text-muted); font-size: 0.8rem; }
-        .applicant-stats { text-align: right; }
-        .applicant-stats .amount { font-weight: 600; color: var(--primary); display: block; }
-        .delete-btn { background: rgba(239, 68, 68, 0.1); color: #ef4444; border: none; width: 32px; height: 32px; border-radius: 8px; cursor: pointer; }
-        .delete-btn:hover { background: #ef4444; color: white; }
+        body { font-family: 'Manrope', sans-serif; min-height: max(884px, 100dvh); -webkit-tap-highlight-color: transparent; }
+        input:focus, select:focus {
+            outline: none;
+            border-color: #004ac6 !important;
+            box-shadow: 0 0 0 3px rgba(0, 74, 198, 0.2) !important;
+        }
     </style>
 </head>
-<body>
-<div class="container">
-    <header><h1>Loan Private Dashboard</h1><p>Only your own loan checks are visible in this history.</p></header>
-    <div class="dashboard-grid">
-        <section>
-            <div class="card">
-                <div class="card-title"><i class="fas fa-calculator"></i> Eligibility Check</div>
-                <form id="loanForm">
-                    <div class="form-group"><label>Full Name</label><input type="text" id="name" required></div>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-                        <div class="form-group"><label>Monthly Income (₹)</label><input type="number" id="income" required></div>
-                        <div class="form-group"><label>Existing EMI (₹)</label><input type="number" id="existing_emi" value="0"></div>
+<body class="bg-background text-on-surface flex flex-col pb-24 md:pb-0 min-h-screen">
+
+<!-- TopAppBar -->
+<header class="bg-surface dark:bg-on-tertiary-fixed shadow-sm dark:shadow-none sticky top-0 z-40 w-full transition-transform duration-150">
+    <div class="flex items-center justify-between px-margin-mobile md:px-margin-desktop h-16 w-full max-w-container-max mx-auto">
+        <div class="flex items-center gap-2 cursor-pointer" onclick="showView('form')">
+            <span class="material-symbols-outlined text-primary dark:text-primary-fixed-dim" data-icon="account_balance">account_balance</span>
+            <span class="font-headline-md text-headline-md-mobile md:text-headline-md text-primary dark:text-primary-fixed-dim font-bold tracking-tight">LoanCheck</span>
+        </div>
+        <!-- Desktop Nav -->
+        <nav class="hidden md:flex gap-4">
+            <button id="nav-check-desktop" class="flex items-center gap-2 transition-colors py-2 px-3 rounded-lg font-label-md text-label-md font-semibold" onclick="showView('form')">
+                <span class="material-symbols-outlined text-[20px]" data-icon="analytics">analytics</span>
+                <span>Check</span>
+            </button>
+            <button id="nav-records-desktop" class="flex items-center gap-2 transition-colors py-2 px-3 rounded-lg font-label-md text-label-md font-semibold" onclick="showView('records')">
+                <span class="material-symbols-outlined text-[20px]" data-icon="history">history</span>
+                <span>Records</span>
+            </button>
+        </nav>
+        <div class="hidden md:flex items-center justify-center w-8 h-8 rounded-full bg-primary-container text-on-primary-container">
+            <span class="material-symbols-outlined text-[18px]">person</span>
+        </div>
+        <div class="md:hidden"></div>
+    </div>
+</header>
+
+<!-- Main Content Canvas -->
+<main class="flex-grow w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-stack-lg flex flex-col items-center justify-start">
+    <div class="w-full max-w-3xl">
+
+        <!-- VIEW: Form View -->
+        <section id="form-view" class="space-y-stack-lg">
+            <div class="text-center md:text-left">
+                <h1 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface mb-stack-sm">Loan Eligibility Form</h1>
+                <p class="font-body-md text-body-md text-on-surface-variant">Enter your details below to instantly calculate your loan eligibility and potential terms.</p>
+            </div>
+            <div class="bg-surface-container-lowest rounded-[16px] shadow-[0_4px_12px_rgba(0,0,0,0.03),0_1px_2px_rgba(0,0,0,0.02)] border border-surface-variant p-margin-mobile md:p-stack-lg">
+                <form id="loanForm" class="space-y-stack-md">
+                    <!-- Section: Personal Details -->
+                    <div class="space-y-stack-sm pb-stack-sm border-b border-surface-variant">
+                        <h2 class="font-headline-sm text-headline-sm text-on-surface flex items-center gap-2">
+                            <span class="material-symbols-outlined text-primary" data-icon="person">person</span>
+                            Applicant Information
+                        </h2>
+                        <div class="grid grid-cols-1 gap-gutter">
+                            <div>
+                                <label class="block font-label-md text-label-md text-on-surface mb-2" for="applicantName">Applicant Name</label>
+                                <input class="w-full h-12 px-4 rounded-lg border border-outline-variant bg-surface-container-lowest text-on-surface placeholder-on-surface-variant/50 font-body-md text-body-md transition-shadow" id="applicantName" name="applicantName" placeholder="your name" type="text" required/>
+                            </div>
+                        </div>
                     </div>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-                        <div class="form-group"><label>Property Value (₹)</label><input type="number" id="property_value" required></div>
-                        <div class="form-group"><label>Desired Loan (₹)</label><input type="number" id="loan_amount" required></div>
+                    <!-- Section: Financial Details -->
+                    <div class="space-y-stack-sm pb-stack-sm border-b border-surface-variant">
+                        <h2 class="font-headline-sm text-headline-sm text-on-surface flex items-center gap-2 mt-stack-md">
+                            <span class="material-symbols-outlined text-primary" data-icon="payments">payments</span>
+                            Financial Profile
+                        </h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+                            <div>
+                                <label class="block font-label-md text-label-md text-on-surface mb-2" for="monthlyIncome">Monthly Income (₹)</label>
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                        <span class="text-on-surface-variant font-body-md">₹</span>
+                                    </div>
+                                    <input class="w-full h-12 pl-8 pr-4 rounded-lg border border-outline-variant bg-surface-container-lowest text-on-surface placeholder-on-surface-variant/50 font-body-md text-body-md transition-shadow" id="monthlyIncome" name="monthlyIncome" placeholder="5000" type="number" required/>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block font-label-md text-label-md text-on-surface mb-2" for="existingEMI">Existing Monthly EMI (₹)</label>
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                        <span class="text-on-surface-variant font-body-md">₹</span>
+                                    </div>
+                                    <input class="w-full h-12 pl-8 pr-4 rounded-lg border border-outline-variant bg-surface-container-lowest text-on-surface placeholder-on-surface-variant/50 font-body-md text-body-md transition-shadow" id="existingEMI" name="existingEMI" placeholder="500" type="number" value="0" required/>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-                        <div class="form-group"><label>Tenure (Years)</label><input type="number" id="tenure" value="20" required></div>
-                        <div class="form-group"><label>Interest Rate (%)</label><input type="number" id="rate" value="8.5" step="0.01" required></div>
+                    <!-- Section: Loan Requirements -->
+                    <div class="space-y-stack-sm pb-stack-sm">
+                        <h2 class="font-headline-sm text-headline-sm text-on-surface flex items-center gap-2 mt-stack-md">
+                            <span class="material-symbols-outlined text-primary" data-icon="real_estate_agent">real_estate_agent</span>
+                            Loan Requirements
+                        </h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+                            <div class="md:col-span-2">
+                                <label class="block font-label-md text-label-md text-on-surface mb-2" for="propertyValue">Property Value (₹)</label>
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                        <span class="text-on-surface-variant font-body-md">₹</span>
+                                    </div>
+                                    <input class="w-full h-12 pl-8 pr-4 rounded-lg border border-outline-variant bg-surface-container-lowest text-on-surface placeholder-on-surface-variant/50 font-body-md text-body-md transition-shadow" id="propertyValue" name="propertyValue" placeholder="300000" type="number" required/>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block font-label-md text-label-md text-on-surface mb-2" for="desiredLoanAmount">Desired Loan Amount (₹)</label>
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                        <span class="text-on-surface-variant font-body-md">₹</span>
+                                    </div>
+                                    <input class="w-full h-12 pl-8 pr-4 rounded-lg border border-outline-variant bg-surface-container-lowest text-on-surface placeholder-on-surface-variant/50 font-body-md text-body-md transition-shadow" id="desiredLoanAmount" name="desiredLoanAmount" placeholder="240000" type="number" required/>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block font-label-md text-label-md text-on-surface mb-2" for="loanTenure">Loan Tenure (Years)</label>
+                                <select class="w-full h-12 px-4 rounded-lg border border-outline-variant bg-surface-container-lowest text-on-surface font-body-md text-body-md transition-shadow appearance-none" id="loanTenure" name="loanTenure" required>
+                                    <option disabled="" value="">Select tenure...</option>
+                                    <option value="5">5 Years</option>
+                                    <option value="10">10 Years</option>
+                                    <option value="15">15 Years</option>
+                                    <option selected value="20">20 Years</option>
+                                    <option value="25">25 Years</option>
+                                    <option value="30">30 Years</option>
+                                </select>
+                            </div>
+                            <div class="md:col-span-2">
+                                <label class="block font-label-md text-label-md text-on-surface mb-2" for="interestRate">Expected Interest Rate (%)</label>
+                                <div class="relative">
+                                    <input class="w-full h-12 px-4 pr-8 rounded-lg border border-outline-variant bg-surface-container-lowest text-on-surface placeholder-on-surface-variant/50 font-body-md text-body-md transition-shadow" id="interestRate" name="interestRate" placeholder="6.5" step="0.01" type="number" value="6.5" required/>
+                                    <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
+                                        <span class="text-on-surface-variant font-body-md">%</span>
+                                    </div>
+                                </div>
+                                <p class="mt-2 text-body-sm text-on-surface-variant">Leave default if unsure. We use market averages.</p>
+                            </div>
+                        </div>
                     </div>
-                    <button type="submit" class="btn">Evaluate Eligibility</button>
+                    <!-- Action Area -->
+                    <div class="pt-stack-md mt-stack-md">
+                        <button class="w-full h-12 bg-primary text-on-primary hover:bg-primary/90 rounded-lg font-label-md text-label-md flex items-center justify-center gap-2 transition-colors" type="submit">
+                            <span class="material-symbols-outlined text-[20px]" data-icon="calculate">calculate</span>
+                            Calculate Eligibility
+                        </button>
+                    </div>
                 </form>
-                <div class="result-container" id="resultArea">
-                    <div id="statusBadge" class="status-badge"></div>
-                    <div class="result-grid">
-                        <div class="result-item"><div class="label">EMI</div><div class="value" id="resEmi">₹0</div></div>
-                        <div class="result-item"><div class="label">DTI</div><div class="value" id="resDti">0%</div></div>
-                        <div class="result-item"><div class="label">Max Loan</div><div class="value" id="resMax">₹0</div></div>
-                        <div class="result-item"><div class="label">Category</div><div class="value" id="resCat">-</div></div>
-                        <div class="remarks" id="resRemarks"></div>
+            </div>
+            <!-- Informational Note -->
+            <div class="mt-stack-md flex items-start gap-3 p-4 bg-surface-container rounded-lg border border-surface-variant">
+                <span class="material-symbols-outlined text-on-surface-variant shrink-0 mt-0.5" data-icon="info">info</span>
+                <p class="font-body-sm text-body-sm text-on-surface-variant">
+                    This calculator provides an estimate based on the information provided. Actual loan eligibility and terms will be determined upon formal application and credit assessment. Your data is secure and not saved until you proceed with an application.
+                </p>
+            </div>
+        </section>
+
+        <!-- VIEW: Results View -->
+        <section id="results-view" class="space-y-stack-lg hidden">
+            <!-- Header -->
+            <div class="text-center">
+                <h1 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface">Your Results</h1>
+                <p class="font-body-md text-body-md text-on-surface-variant mt-2">Based on the information provided, here is your preliminary assessment.</p>
+            </div>
+            <!-- Main Status Card -->
+            <div id="result-status-card" class="bg-surface-container-lowest rounded-xl shadow-[0_12px_32px_rgba(0,0,0,0.08)] p-stack-lg border border-[#e2e8f0] flex flex-col items-center text-center">
+                <div id="result-badge-bg" class="w-20 h-20 rounded-full flex items-center justify-center mb-6">
+                    <span id="result-badge-icon" class="material-symbols-outlined text-[40px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                </div>
+                <h2 id="result-status-text" class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg mb-2">Eligible</h2>
+                <p id="result-status-desc" class="font-body-md text-body-md text-on-surface-variant max-w-md"></p>
+            </div>
+            <!-- Bento Grid Metrics -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+                <!-- Max Loan -->
+                <div class="bg-surface-container-lowest rounded-xl p-6 border border-[#e2e8f0] shadow-[0_4px_12px_rgba(0,0,0,0.03)] flex flex-col justify-center">
+                    <p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider mb-2">Maximum Eligible Loan</p>
+                    <p id="result-max-loan" class="font-headline-md text-headline-md text-primary">₹0</p>
+                </div>
+                <!-- Estimated EMI -->
+                <div class="bg-surface-container-lowest rounded-xl p-6 border border-[#e2e8f0] shadow-[0_4px_12px_rgba(0,0,0,0.03)] flex flex-col justify-center">
+                    <p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider mb-2">Estimated Monthly EMI</p>
+                    <p class="font-headline-sm text-headline-sm text-on-surface"><span id="result-emi">₹0</span> <span class="font-body-sm text-body-sm text-on-surface-variant">/mo</span></p>
+                </div>
+                <!-- DTI Ratio -->
+                <div class="bg-surface-container-lowest rounded-xl p-6 border border-[#e2e8f0] shadow-[0_4px_12px_rgba(0,0,0,0.03)] flex flex-col justify-center">
+                    <div class="flex justify-between items-end mb-2">
+                        <p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Debt-to-Income</p>
+                        <span id="result-dti-badge" class="font-label-sm text-label-sm px-2 py-1 rounded">Normal</span>
+                    </div>
+                    <p id="result-dti" class="font-headline-sm text-headline-sm text-on-surface">0%</p>
+                    <!-- Visual Progress Bar -->
+                    <div class="w-full bg-surface-container h-2 mt-4 rounded-full overflow-hidden">
+                        <div id="result-dti-bar" class="bg-primary h-full rounded-full" style="width: 0%;"></div>
                     </div>
                 </div>
+                <!-- Credit Score -->
+                <div class="bg-surface-container-lowest rounded-xl p-6 border border-[#e2e8f0] shadow-[0_4px_12px_rgba(0,0,0,0.03)] flex flex-col justify-center">
+                    <div class="flex justify-between items-end mb-2">
+                        <p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Credit Category</p>
+                        <span class="material-symbols-outlined text-secondary text-sm" id="result-credit-icon" data-icon="verified">verified</span>
+                    </div>
+                    <p id="result-credit-category" class="font-headline-sm text-headline-sm text-on-surface">-</p>
+                    <p id="result-credit-explanation" class="font-body-sm text-body-sm text-on-surface-variant mt-2">Calculated from DTI metrics.</p>
+                </div>
+                <!-- Remarks -->
+                <div class="md:col-span-2 bg-surface-container-lowest rounded-xl p-6 border border-[#e2e8f0] shadow-[0_4px_12px_rgba(0,0,0,0.03)]">
+                    <p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider mb-2">Detailed Remarks</p>
+                    <p id="result-remarks" class="font-body-md text-body-md text-on-surface"></p>
+                </div>
+            </div>
+            <!-- Actions -->
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <button class="w-full sm:w-auto bg-surface-container-lowest text-primary border border-primary font-label-md text-label-md py-3 px-8 rounded-lg hover:bg-surface-container transition-colors flex items-center justify-center gap-2 h-12" onclick="showView('form')">
+                    <span class="material-symbols-outlined text-sm" data-icon="refresh">refresh</span>
+                    Check Another
+                </button>
+                <button class="w-full sm:w-auto bg-primary text-on-primary font-label-md text-label-md py-3 px-8 rounded-lg hover:bg-primary/90 transition-colors flex items-center justify-center gap-2 h-12 shadow-sm" onclick="showView('records')">
+                    <span class="material-symbols-outlined text-sm" data-icon="history">history</span>
+                    View Saved Records
+                </button>
             </div>
         </section>
-        <section>
-            <div class="card">
-                <div class="card-title"><i class="fas fa-user-shield"></i> Your Private History</div>
-                <div class="applicant-list" id="applicantList"></div>
+
+        <!-- VIEW: Records View -->
+        <section id="records-view" class="space-y-stack-lg hidden">
+            <!-- Header Section -->
+            <div class="mb-stack-lg">
+                <h1 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-on-surface mb-stack-sm">Saved Records</h1>
+                <p class="font-body-md text-body-md text-on-surface-variant">Review previous applicant loan eligibility checks.</p>
+            </div>
+            <!-- Records Grid/List -->
+            <div id="records-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter">
+                <!-- Dynamically filled -->
             </div>
         </section>
+
     </div>
-</div>
+</main>
+
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full flex justify-around items-center h-20 bg-surface-container-lowest dark:bg-on-tertiary-fixed px-4 pb-safe shadow-[0_-4px_12px_rgba(0,0,0,0.03)] dark:shadow-none z-50">
+    <button id="nav-check-mobile" class="flex flex-col items-center justify-center transition-colors active:opacity-80 transition-opacity duration-150 w-full" onclick="showView('form')">
+        <span class="material-symbols-outlined mb-1" data-icon="analytics">analytics</span>
+        <span class="font-label-sm text-label-sm font-bold">Check</span>
+    </button>
+    <button id="nav-records-mobile" class="flex flex-col items-center justify-center transition-colors active:opacity-80 transition-opacity duration-150 w-full" onclick="showView('records')">
+        <span class="material-symbols-outlined mb-1" data-icon="history">history</span>
+        <span class="font-label-sm text-label-sm">Records</span>
+    </button>
+</nav>
+
+<!-- JS Scripts -->
 <script>
     const API_BASE = '/api';
     const API_KEY = 'my-secure-loan-key-12345';
@@ -98,65 +367,244 @@
 
     const getHeaders = () => ({ 'Content-Type': 'application/json', 'X-API-Key': API_KEY });
 
+    // Handle Form Submit
     document.getElementById('loanForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         const payload = {
-            session_id: sessionId, // Send Privacy ID
-            name: document.getElementById('name').value,
-            monthly_income: parseFloat(document.getElementById('income').value),
-            existing_emi: parseFloat(document.getElementById('existing_emi').value),
-            property_value: parseFloat(document.getElementById('property_value').value),
-            desired_loan_amount: parseFloat(document.getElementById('loan_amount').value),
-            loan_tenure_years: parseInt(document.getElementById('tenure').value),
-            interest_rate: parseFloat(document.getElementById('rate').value)
+            session_id: sessionId,
+            name: document.getElementById('applicantName').value,
+            monthly_income: parseFloat(document.getElementById('monthlyIncome').value),
+            existing_emi: parseFloat(document.getElementById('existingEMI').value),
+            property_value: parseFloat(document.getElementById('propertyValue').value),
+            desired_loan_amount: parseFloat(document.getElementById('desiredLoanAmount').value),
+            loan_tenure_years: parseInt(document.getElementById('loanTenure').value),
+            interest_rate: parseFloat(document.getElementById('interestRate').value)
         };
+        
         try {
-            const response = await fetch(`${API_BASE}/check`, { method: 'POST', headers: getHeaders(), body: JSON.stringify(payload) });
+            const response = await fetch(`${API_BASE}/check`, { 
+                method: 'POST', 
+                headers: getHeaders(), 
+                body: JSON.stringify(payload) 
+            });
             const data = await response.json();
-            if (response.ok) { displayResult(data.result); fetchApplicants(); }
-        } catch (err) { alert('API Error'); }
+            if (response.ok) { 
+                displayResult(data.result, data.name);
+                showView('results');
+            } else {
+                alert(data.error || 'Failed to check eligibility');
+            }
+        } catch (err) { 
+            alert('API Error: Make sure backend is running'); 
+        }
     });
 
-    function displayResult(res) {
-        const area = document.getElementById('resultArea');
-        area.style.display = 'block';
-        document.getElementById('statusBadge').innerText = res.eligible ? '✅ ELIGIBLE' : '❌ NOT ELIGIBLE';
-        document.getElementById('statusBadge').className = 'status-badge ' + (res.eligible ? 'status-eligible' : 'status-denied');
-        document.getElementById('resEmi').innerText = `₹${res.monthly_emi.toLocaleString()}`;
-        document.getElementById('resDti').innerText = `${res.debt_to_income_ratio}%`;
-        document.getElementById('resMax').innerText = `₹${res.max_eligible_loan.toLocaleString()}`;
-        document.getElementById('resCat').innerText = res.credit_category;
-        document.getElementById('resRemarks').innerText = res.remarks;
+    // Populate Results Screen
+    function displayResult(res, name) {
+        const statusText = document.getElementById('result-status-text');
+        const statusDesc = document.getElementById('result-status-desc');
+        const statusCard = document.getElementById('result-status-card');
+        const badgeBg = document.getElementById('result-badge-bg');
+        const badgeIcon = document.getElementById('result-badge-icon');
+        
+        statusText.innerText = res.eligible ? 'Eligible' : 'Ineligible';
+        
+        if (res.eligible) {
+            statusText.className = 'font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-secondary mb-2';
+            statusDesc.innerText = `You meet the preliminary criteria for this loan. Proceed to review the metrics below.`;
+            badgeBg.className = 'w-20 h-20 bg-secondary-container/20 rounded-full flex items-center justify-center mb-6';
+            badgeIcon.className = 'material-symbols-outlined text-[40px] text-secondary';
+            badgeIcon.innerText = 'check_circle';
+        } else {
+            statusText.className = 'font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-error mb-2';
+            statusDesc.innerText = `You do not meet the requirements for this loan. See details below.`;
+            badgeBg.className = 'w-20 h-20 bg-error-container/20 rounded-full flex items-center justify-center mb-6';
+            badgeIcon.className = 'material-symbols-outlined text-[40px] text-error';
+            badgeIcon.innerText = 'cancel';
+        }
+        
+        document.getElementById('result-max-loan').innerText = `₹${res.max_eligible_loan.toLocaleString()}`;
+        document.getElementById('result-emi').innerText = `₹${res.monthly_emi.toLocaleString()}`;
+        document.getElementById('result-dti').innerText = `${res.debt_to_income_ratio}%`;
+        
+        // Update DTI Progress Bar & Badge
+        const dtiBar = document.getElementById('result-dti-bar');
+        dtiBar.style.width = `${Math.min(res.debt_to_income_ratio, 100)}%`;
+        
+        const dtiBadge = document.getElementById('result-dti-badge');
+        if (res.debt_to_income_ratio <= 36) {
+            dtiBadge.className = 'bg-secondary-container/20 text-secondary font-label-sm text-label-sm px-2 py-1 rounded';
+            dtiBadge.innerText = 'Good';
+            dtiBar.className = 'bg-secondary h-full rounded-full';
+        } else if (res.debt_to_income_ratio <= 50) {
+            dtiBadge.className = 'bg-warning-container/20 text-yellow-600 font-label-sm text-label-sm px-2 py-1 rounded bg-yellow-50';
+            dtiBadge.innerText = 'Average';
+            dtiBar.className = 'bg-yellow-500 h-full rounded-full';
+        } else {
+            dtiBadge.className = 'bg-error-container/20 text-error font-label-sm text-label-sm px-2 py-1 rounded';
+            dtiBadge.innerText = 'Risky';
+            dtiBar.className = 'bg-error h-full rounded-full';
+        }
+        
+        // Credit Category
+        document.getElementById('result-credit-category').innerText = res.credit_category;
+        const creditExplanation = document.getElementById('result-credit-explanation');
+        const creditIcon = document.getElementById('result-credit-icon');
+        if (res.credit_category === 'Good') {
+            creditExplanation.innerText = 'Provides access to premium interest rates.';
+            creditIcon.innerText = 'verified';
+            creditIcon.className = 'material-symbols-outlined text-secondary text-sm';
+        } else if (res.credit_category === 'Average') {
+            creditExplanation.innerText = 'Acceptable debt-to-income profile.';
+            creditIcon.innerText = 'info';
+            creditIcon.className = 'material-symbols-outlined text-yellow-600 text-sm';
+        } else {
+            creditExplanation.innerText = 'High risk. Consider reducing existing debts.';
+            creditIcon.innerText = 'warning';
+            creditIcon.className = 'material-symbols-outlined text-error text-sm';
+        }
+        
+        // Remarks
+        document.getElementById('result-remarks').innerText = res.remarks;
     }
 
+    // View Switching
+    function showView(view) {
+        document.getElementById('form-view').classList.add('hidden');
+        document.getElementById('results-view').classList.add('hidden');
+        document.getElementById('records-view').classList.add('hidden');
+        
+        // Reset Nav styles
+        const activeDesktop = 'text-primary dark:text-primary-fixed-dim bg-surface-container-low';
+        const inactiveDesktop = 'text-on-surface-variant dark:text-outline-variant hover:bg-surface-container dark:hover:bg-tertiary-container';
+        
+        const activeMobile = 'text-primary dark:text-primary-fixed-dim font-semibold';
+        const inactiveMobile = 'text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed-dim';
+
+        document.getElementById('nav-check-desktop').className = `flex items-center gap-2 transition-colors py-2 px-3 rounded-lg font-label-md text-label-md ${inactiveDesktop}`;
+        document.getElementById('nav-records-desktop').className = `flex items-center gap-2 transition-colors py-2 px-3 rounded-lg font-label-md text-label-md ${inactiveDesktop}`;
+        document.getElementById('nav-check-mobile').className = `flex flex-col items-center justify-center transition-colors active:opacity-80 transition-opacity duration-150 w-full ${inactiveMobile}`;
+        document.getElementById('nav-records-mobile').className = `flex flex-col items-center justify-center transition-colors active:opacity-80 transition-opacity duration-150 w-full ${inactiveMobile}`;
+
+        if (view === 'form') {
+            document.getElementById('form-view').classList.remove('hidden');
+            document.getElementById('nav-check-desktop').className = `flex items-center gap-2 transition-colors py-2 px-3 rounded-lg font-label-md text-label-md ${activeDesktop}`;
+            document.getElementById('nav-check-mobile').className = `flex flex-col items-center justify-center transition-colors active:opacity-80 transition-opacity duration-150 w-full ${activeMobile}`;
+        } else if (view === 'results') {
+            document.getElementById('results-view').classList.remove('hidden');
+        } else if (view === 'records') {
+            document.getElementById('records-view').classList.remove('hidden');
+            document.getElementById('nav-records-desktop').className = `flex items-center gap-2 transition-colors py-2 px-3 rounded-lg font-label-md text-label-md ${activeDesktop}`;
+            document.getElementById('nav-records-mobile').className = `flex flex-col items-center justify-center transition-colors active:opacity-80 transition-opacity duration-150 w-full ${activeMobile}`;
+            fetchApplicants();
+        }
+    }
+
+    // Fetch previous records
     async function fetchApplicants() {
+        const list = document.getElementById('records-list');
+        list.innerHTML = '<p class="col-span-full text-center text-on-surface-variant/70 py-12">Loading records...</p>';
+        
         try {
-            // Only fetch records for THIS sessionId
-            const response = await fetch(`${API_BASE}/applicants?session_id=${sessionId}`, { headers: getHeaders() });
+            const response = await fetch(`${API_BASE}/applicants?session_id=${sessionId}`, { 
+                headers: getHeaders() 
+            });
             const data = await response.json();
-            const list = document.getElementById('applicantList');
+            
             list.innerHTML = '';
-            if (data.length === 0) { list.innerHTML = '<p style="text-align:center;color:var(--text-muted);padding:2rem;">No history yet.</p>'; return; }
-            data.reverse().forEach(app => {
+            if (!data || data.length === 0) {
+                list.innerHTML = '<p class="col-span-full text-center text-on-surface-variant/70 py-12">No records found. Check your eligibility to get started!</p>';
+                return;
+            }
+            
+            data.reverse().forEach((app, index) => {
                 const item = document.createElement('div');
-                item.className = 'applicant-item';
+                item.className = 'bg-surface-container-lowest rounded-xl p-6 shadow-[0_4px_12px_rgba(0,0,0,0.03),0_1px_2px_rgba(0,0,0,0.02)] border border-surface-variant hover:shadow-[0_12px_32px_rgba(0,0,0,0.08)] transition-shadow duration-300 flex flex-col justify-between';
+                
+                // Status Badge classes
+                const statusBadgeBg = app.result.eligible ? 'bg-secondary/10 text-secondary' : 'bg-error/10 text-error';
+                const statusIcon = app.result.eligible ? 'check_circle' : 'cancel';
+                const statusText = app.result.eligible ? 'Eligible' : 'Ineligible';
+
+                // Format dates safely
+                const displayDate = app.timestamp ? new Date(app.timestamp).toLocaleDateString(undefined, {month: 'short', day: 'numeric', year: 'numeric'}) : 'Recently';
+
                 item.innerHTML = `
-                    <div class="applicant-info"><h4>${app.name}</h4><p>${app.loan_tenure_years}y @ ${app.interest_rate}%</p></div>
-                    <div style="display:flex;align-items:center;">
-                        <div class="applicant-stats"><span class="amount">₹${app.desired_loan_amount.toLocaleString()}</span></div>
-                        <button class="delete-btn" onclick="deleteApplicant('${app.id}')"><i class="fas fa-trash-can"></i></button>
-                    </div>`;
+                    <div>
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h2 class="font-headline-sm text-headline-sm text-on-surface font-semibold">Evaluation Record</h2>
+                                <p class="font-body-sm text-body-sm text-on-surface-variant">ID: LC-${app.id.substring(0, 8).toUpperCase()}</p>
+                            </div>
+                            <div class="${statusBadgeBg} px-3 py-1 rounded-full font-label-sm text-label-sm flex items-center gap-1">
+                                <span class="material-symbols-outlined text-[14px]">${statusIcon}</span>
+                                ${statusText}
+                            </div>
+                        </div>
+                        <div class="space-y-3 mb-6">
+                            <div class="flex justify-between items-center border-b border-surface-variant pb-2">
+                                <span class="font-body-sm text-body-sm text-on-surface-variant">Monthly Income</span>
+                                <span class="font-body-md text-body-md text-on-surface font-semibold">₹${app.monthly_income.toLocaleString()}</span>
+                            </div>
+                            <div class="flex justify-between items-center border-b border-surface-variant pb-2">
+                                <span class="font-body-sm text-body-sm text-on-surface-variant">Loan Amount</span>
+                                <span class="font-body-md text-body-md text-on-surface font-semibold">₹${app.desired_loan_amount.toLocaleString()}</span>
+                            </div>
+                            <div class="flex justify-between items-center pb-2">
+                                <span class="font-body-sm text-body-sm text-on-surface-variant">Date Checked</span>
+                                <span class="font-body-sm text-body-sm text-on-surface">${displayDate}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex gap-2">
+                        <button class="w-full bg-surface-container-low text-primary hover:bg-surface-container font-label-md text-label-md py-3 rounded-lg transition-colors border border-surface-variant" onclick="viewRecordDetails(${index})">
+                            View Details
+                        </button>
+                        <button class="px-4 bg-error/10 text-error hover:bg-error hover:text-white font-label-md text-label-md py-3 rounded-lg transition-colors border border-error/20 flex items-center justify-center" onclick="deleteRecord('${app.id}')">
+                            <span class="material-symbols-outlined text-[18px]">delete</span>
+                        </button>
+                    </div>
+                `;
+                
+                // Store record data on the element for retrieval by View Details
+                item.dataset.record = JSON.stringify(app);
                 list.appendChild(item);
             });
-        } catch (err) { }
+        } catch (err) {
+            list.innerHTML = '<p class="col-span-full text-center text-error py-12">Failed to load records. Check connection.</p>';
+        }
     }
 
-    async function deleteApplicant(id) {
-        if (!confirm('Delete?')) return;
-        await fetch(`${API_BASE}/applicants/${id}`, { method: 'DELETE', headers: getHeaders() });
-        fetchApplicants();
+    // View Details from History Record
+    function viewRecordDetails(index) {
+        const cards = document.querySelectorAll('#records-list > div');
+        if (cards[index]) {
+            const app = JSON.parse(cards[index].dataset.record);
+            displayResult(app.result, app.name);
+            showView('results');
+        }
     }
-    fetchApplicants();
+
+    // Delete Record
+    async function deleteRecord(id) {
+        if (!confirm('Are you sure you want to delete this check history?')) return;
+        try {
+            const response = await fetch(`${API_BASE}/applicants/${id}`, { 
+                method: 'DELETE', 
+                headers: getHeaders() 
+            });
+            if (response.ok) {
+                fetchApplicants();
+            } else {
+                alert('Failed to delete record');
+            }
+        } catch (err) {
+            alert('Network error while deleting record');
+        }
+    }
+
+    // Initialize View
+    showView('form');
 </script>
 </body>
 </html>
