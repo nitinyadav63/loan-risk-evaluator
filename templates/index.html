@@ -160,7 +160,7 @@
                         <div class="grid grid-cols-1 gap-gutter">
                             <div>
                                 <label class="block font-label-md text-label-md text-on-surface mb-2" for="applicantName">Applicant Name</label>
-                                <input class="w-full h-12 px-4 rounded-lg border border-outline-variant bg-surface-container-lowest text-on-surface placeholder-on-surface-variant/50 font-body-md text-body-md transition-shadow" id="applicantName" name="applicantName" placeholder="your name" type="text" required/>
+                                <input class="w-full h-12 px-4 rounded-lg border border-outline-variant bg-surface-container-lowest text-on-surface placeholder-on-surface-variant/50 font-body-md text-body-md transition-shadow" id="applicantName" name="applicantName" placeholder="Your Name" type="text" required/>
                             </div>
                         </div>
                     </div>
@@ -217,16 +217,15 @@
                                 </div>
                             </div>
                             <div>
-                                <label class="block font-label-md text-label-md text-on-surface mb-2" for="loanTenure">Loan Tenure (Years)</label>
-                                <select class="w-full h-12 px-4 rounded-lg border border-outline-variant bg-surface-container-lowest text-on-surface font-body-md text-body-md transition-shadow appearance-none" id="loanTenure" name="loanTenure" required>
-                                    <option disabled="" value="">Select tenure...</option>
-                                    <option value="5">5 Years</option>
-                                    <option value="10">10 Years</option>
-                                    <option value="15">15 Years</option>
-                                    <option selected value="20">20 Years</option>
-                                    <option value="25">25 Years</option>
-                                    <option value="30">30 Years</option>
-                                </select>
+                                <label class="block font-label-md text-label-md text-on-surface mb-2">Loan Tenure</label>
+                                <div class="grid grid-cols-2 gap-2">
+                                    <select class="w-full h-12 px-4 rounded-lg border border-outline-variant bg-surface-container-lowest text-on-surface font-body-md text-body-md transition-shadow appearance-none" id="loanTenureYears" required>
+                                        <!-- Dynamically populated -->
+                                    </select>
+                                    <select class="w-full h-12 px-4 rounded-lg border border-outline-variant bg-surface-container-lowest text-on-surface font-body-md text-body-md transition-shadow appearance-none" id="loanTenureMonths" required>
+                                        <!-- Dynamically populated -->
+                                    </select>
+                                </div>
                             </div>
                             <div class="md:col-span-2">
                                 <label class="block font-label-md text-label-md text-on-surface mb-2" for="interestRate">Expected Interest Rate (%)</label>
@@ -377,7 +376,8 @@
             existing_emi: parseFloat(document.getElementById('existingEMI').value),
             property_value: parseFloat(document.getElementById('propertyValue').value),
             desired_loan_amount: parseFloat(document.getElementById('desiredLoanAmount').value),
-            loan_tenure_years: parseInt(document.getElementById('loanTenure').value),
+            loan_tenure_years: parseInt(document.getElementById('loanTenureYears').value) + 
+                               (parseInt(document.getElementById('loanTenureMonths').value) / 12),
             interest_rate: parseFloat(document.getElementById('interestRate').value)
         };
         
@@ -550,6 +550,10 @@
                                 <span class="font-body-sm text-body-sm text-on-surface-variant">Loan Amount</span>
                                 <span class="font-body-md text-body-md text-on-surface font-semibold">₹${app.desired_loan_amount.toLocaleString()}</span>
                             </div>
+                            <div class="flex justify-between items-center border-b border-surface-variant pb-2">
+                                <span class="font-body-sm text-body-sm text-on-surface-variant">Tenure</span>
+                                <span class="font-body-md text-body-md text-on-surface font-semibold">${formatTenure(app.loan_tenure_years)} @ ${app.interest_rate}%</span>
+                            </div>
                             <div class="flex justify-between items-center pb-2">
                                 <span class="font-body-sm text-body-sm text-on-surface-variant">Date Checked</span>
                                 <span class="font-body-sm text-body-sm text-on-surface">${displayDate}</span>
@@ -600,6 +604,40 @@
             }
         } catch (err) {
             alert('Network error while deleting record');
+        }
+    }
+
+    // Format Tenure Helper
+    function formatTenure(yearsFloat) {
+        const totalMonths = Math.round(yearsFloat * 12);
+        const y = Math.floor(totalMonths / 12);
+        const m = totalMonths % 12;
+        let parts = [];
+        if (y > 0) parts.push(`${y} Year${y !== 1 ? 's' : ''}`);
+        if (m > 0) parts.push(`${m} Month${m !== 1 ? 's' : ''}`);
+        return parts.join(' ') || '0 Months';
+    }
+
+    // Populate tenure dropdowns dynamically on load
+    const yearsSelect = document.getElementById('loanTenureYears');
+    if (yearsSelect) {
+        for (let i = 0; i <= 30; i++) {
+            const opt = document.createElement('option');
+            opt.value = i;
+            opt.innerText = `${i} Year${i !== 1 ? 's' : ''}`;
+            if (i === 20) opt.selected = true;
+            yearsSelect.appendChild(opt);
+        }
+    }
+
+    const monthsSelect = document.getElementById('loanTenureMonths');
+    if (monthsSelect) {
+        for (let i = 0; i <= 11; i++) {
+            const opt = document.createElement('option');
+            opt.value = i;
+            opt.innerText = `${i} Month${i !== 1 ? 's' : ''}`;
+            if (i === 0) opt.selected = true;
+            monthsSelect.appendChild(opt);
         }
     }
 
