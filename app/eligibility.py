@@ -159,13 +159,13 @@ def check_eligibility(applicant: dict) -> dict:
 
     # --- Eligibility rules ---
     # Rule 1: DTI must not exceed 50 %
-    # Rule 2: Loan amount must not exceed 90 % of property value (LTV cap)
+    # Rule 2: Loan amount must not exceed 50 % of property value (LTV cap)
     if property_val <= 0:
         ltv = 100.0  # Invalid property value → treat as over-limit
     else:
         ltv = (loan_amount / property_val * 100)
 
-    eligible = (dti <= 50) and (ltv <= 90)
+    eligible = (dti <= 50) and (ltv <= 50)
 
     # --- Build remarks ---
     remarks_parts = []
