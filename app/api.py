@@ -43,6 +43,12 @@ def require_api_key(f):
 @app.route("/", methods=["GET"])
 def index():
     return render_template("index.html")
+@app.route("/googled17c5ddf7a1c7db6.html")
+def google_verify():
+    return send_from_directory(
+        os.path.join(os.getcwd(), "static"),
+        "googled17c5ddf7a1c7db6.html"
+    )
 
 @app.route("/api/health", methods=["GET"])
 def health_check():
